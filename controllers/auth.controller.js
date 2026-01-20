@@ -49,8 +49,10 @@ const login = async (req, res) => {
 
   res.cookie("token", token, {
     httpOnly: true,
-    sameSite: "none", 
-    secure: true
+    // sameSite: "none", 
+    // secure: true
+     secure: process.env.NODE_ENV === "production",
+  sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
   });
 
   res.json({ role });
@@ -66,8 +68,10 @@ const me = (req, res) => {
 
 const logout = (req, res) => {
   res.clearCookie("token", {
-  secure: true,
-  sameSite: "none",
+  // secure: true,
+  // sameSite: "none",
+   secure: process.env.NODE_ENV === "production",
+  sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
 });
   res.json({ message: "Logged out" });
 };
