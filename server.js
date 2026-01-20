@@ -4,6 +4,7 @@ require("dotenv").config();
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
+// console.log("MONGODB_URI =", process.env.MONGODB_URI);
 
 const connectDB = require("./config/db");
 
