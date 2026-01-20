@@ -1,10 +1,10 @@
-// connects mongoDB using mongoose
-// keeps DB logic separate
-const mongoose = require("mongoose");
 
+const mongoose = require("mongoose");
+let uri='mongodb+srv://appuser:appuser123@cluster0.qr8n9an.mongodb.net/?appName=Cluster0'
 const connectDB = async () => {
   try {
-    await mongoose.connect("mongodb://127.0.0.1:27017/interioverse");
+    await mongoose.connect(uri
+);
     console.log("MongoDB connected");
   } catch (err) {
     console.error("MongoDB connection failed");

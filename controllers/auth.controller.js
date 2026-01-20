@@ -1,7 +1,8 @@
-// signup logic, login logic, keeps routes clean, all logic in one place
+
 
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
+
 const generateProfileId = (name, role, mongoId) => {
  
   const roleMap = {
@@ -22,7 +23,7 @@ const generateProfileId = (name, role, mongoId) => {
 };
 
 
-/* LOGIN */
+
 const login = async (req, res) => {
   const { role, password } = req.body;
 
@@ -48,15 +49,16 @@ const login = async (req, res) => {
 
   res.cookie("token", token, {
     httpOnly: true,
-    sameSite: "lax", //same website 
+    sameSite: "lax", 
     secure: false
   });
 
   res.json({ role });
 };
 
+
 const me = (req, res) => {
-  // If this runs → cookie + JWT is valid
+  
   res.json({
     role: req.user.role
   });
@@ -90,14 +92,14 @@ const signup = async (req, res) => {
       tagline
     } = req.body;
 
-    //  REQUIRED FIELDS
+    
     if (!name || !email || !phone || !role) {
       return res.status(400).json({
         message: "Name, Email, Phone and Role are required"
       });
     }
 
-    // ALLOWED ROLES (SECURITY CHECK)
+    
     const allowedRoles = ["designer", "agent", "user"];
     if (!allowedRoles.includes(role)) {
       return res.status(400).json({
@@ -105,7 +107,7 @@ const signup = async (req, res) => {
       });
     }
 
-    // PREVENT DUPLICATE USER
+    
    
    const existingUser = await User.findOne({
   $or: [{ email }, { phone }]
@@ -122,7 +124,7 @@ if (existingUser) {
 
 
 
-      // create user WITHOUT profileId
+      
 const user = new User({
   name,
   email,
@@ -142,17 +144,16 @@ const user = new User({
   verified: false
 });
 
-//  save once → MongoDB generates _id
 await user.save();
 
-//  generate profileId using MongoDB _id
+
 user.profileId = generateProfileId(
   user.name,
   user.role,
   user._id.toString()
 );
 
-//  save again with profileId
+
 await user.save();
 
 
