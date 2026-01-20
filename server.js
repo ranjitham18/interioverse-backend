@@ -24,6 +24,9 @@ connectDB();
 
 app.use("/api/auth", require("./routes/auth.routes"));
 app.use("/api/admin", require("./routes/admin.routes"));
+app.get("/", (req, res) => {
+  res.send("Backend is live and working");
+});
 
 app.listen(process.env.PORT, () => {
   console.log(`Server running on port ${process.env.PORT}`);
