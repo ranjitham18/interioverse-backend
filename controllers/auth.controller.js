@@ -26,6 +26,12 @@ const generateProfileId = (name, role, mongoId) => {
 
 const login = async (req, res) => {
   const { role, password } = req.body;
+    console.log("LOGIN DEBUG 👉", {
+    role,
+    password,
+    ADMIN_PASSWORD: process.env.ADMIN_PASSWORD,
+    USER_PASSWORD: process.env.USER_PASSWORD
+  });
 
   if (!role || !password) {
     return res.status(400).json({ message: "Role and password required" });
