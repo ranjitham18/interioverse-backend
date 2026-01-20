@@ -49,8 +49,8 @@ const login = async (req, res) => {
 
   res.cookie("token", token, {
     httpOnly: true,
-    sameSite: "lax", 
-    secure: false
+    sameSite: "none", 
+    secure: true
   });
 
   res.json({ role });
@@ -65,7 +65,10 @@ const me = (req, res) => {
 };
 
 const logout = (req, res) => {
-  res.clearCookie("token");
+  res.clearCookie("token", {
+  secure: true,
+  sameSite: "none",
+});
   res.json({ message: "Logged out" });
 };
 
