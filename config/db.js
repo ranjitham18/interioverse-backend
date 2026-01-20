@@ -1,9 +1,9 @@
 
 const mongoose = require("mongoose");
-
+let uri='mongodb+srv://appuser:appuser123@cluster0.qr8n9an.mongodb.net/?appName=Cluster0'
 const connectDB = async () => {
   try {
-    await mongoose.connect(process.env.MONGODB_URI);
+    await mongoose.connect(uri);
     console.log("MongoDB connected");
   } catch (err) {
     console.error("MongoDB connection failed");
@@ -12,3 +12,5 @@ const connectDB = async () => {
 };
 
 module.exports = connectDB;
+
+
