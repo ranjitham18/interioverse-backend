@@ -53,21 +53,19 @@ const login = async (req, res) => {
     expiresIn: "1d"
   });
 
-  res.cookie("token", token, {
-    httpOnly: true,
-    // sameSite: "none", 
-    // secure: true
-     secure: process.env.NODE_ENV === "production",
-  sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-  });
+ res.cookie("token", token, {
+  httpOnly: true,
+  secure: true,
+  sameSite: "None",
+});
+
 
   res.json({ role });
 };
 
 
 const me = (req, res) => {
-  
-  res.json({
+  res.status(200).json({
     role: req.user.role
   });
 };

@@ -3,7 +3,7 @@
 // middleware run before controller
 //auth middleware verifies JWT from HTTP-only cookies, decodes user data, and protects routes by attaching user info to the request
 
-const jwt = require("jsonwebtoken");
+/*const jwt = require("jsonwebtoken");
 
 module.exports = (req, res, next) => {
   const token = req.cookies.token;
@@ -16,6 +16,26 @@ module.exports = (req, res, next) => {
   } catch {
     res.status(401).json({ message: "Invalid token" });
   }
+};*/
+
+const jwt = require("jsonwebtoken");
+
+const authMiddleware = (req, res, next) => {
+  try {
+    const token = req.cookies.token;
+    if (!token) {
+      return res.status(401).json({ message: "No token" });
+    }
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    req.user = decoded; // 🔴 THIS IS WHAT YOU WERE MISSING
+    next();
+  } catch (err) {
+    return res.status(401).json({ message: "Invalid token" });
+  }
 };
+
+module.exports = authMiddleware;
 
 
